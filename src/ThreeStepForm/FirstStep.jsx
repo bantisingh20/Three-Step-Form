@@ -29,10 +29,35 @@ import { multistepcount } from './StepContext';
 
                     <div className="form-group">
                         <label form="">Contact No</label>
-                            <input type="number" className="form-control"
+                            {/* <input type="number" className="form-control"
                             value={userData["ContactNo"]}
                             onChange={(e) => SetuserData({...userData ,"ContactNo" : e.target.value})}
-                            id="txtLastName" required placeholder="Enter Mobile Number" />
+                            id="txtLastName" required placeholder="Enter Mobile Number" /> */}
+
+<input type="text" className="form-control"
+    value={userData["ContactNo"]}
+    onChange={(e) => {
+        // Allow only numeric input
+        const value = e.target.value.replace(/\D/g, ''); 
+        if (value.length > 10) {
+            value = value.slice(0, 10); // Trim value if it exceeds 10 digits
+        }
+        SetuserData({ ...userData, "ContactNo": value });
+    }}
+    onKeyUp={(e) => {
+        const value = e.target.value;
+        // Check length of the input
+        if (value.length < 10) {
+            e.target.setCustomValidity("Contact number must be at least 10 digits");
+        } else {
+            e.target.setCustomValidity(""); // Clear the validation message
+        }
+    }}
+    id="txtLastName" 
+    required 
+    placeholder="Enter Mobile Number" 
+/>
+
                     </div>
 
                     <div className="form-group">
